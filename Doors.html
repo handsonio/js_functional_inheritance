@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+<title> Functional inheritance </title>
+
+<script language="javaScript">
+    
+//Function to create a object Door. This is the way to simulate a class.
+function DoorClass(/*arguments*/)
+{
+    // return doorObject
+    var door = {};
+    
+    //Private fields
+    var _isOpen = 1;
+    
+    //Private functions
+    function privateFunction() {}
+    
+    // Public fields
+    door.publicField = "This is public field";
+    
+    // Public fonctions
+    door.isOpen = function() 
+    {
+        if (_isOpen === 1)
+        {
+            return 'I\'m Open!!';
+        }
+        return 'No.. I\'m close!!';
+    };
+    door.open = function ()
+    {
+        _isOpen = 1;
+    }
+    door.close = function ()
+    {
+        _isOpen = 0;
+    }
+
+    // Return the created object
+    return door;
+}
+
+
+function LockableDoorClass()
+{
+    //Initial object is an instance of a generic Door
+    var LockableDoor = DoorClass();
+
+    //Save the reference to parent class function
+    var super_isOpen = LockableDoor.isOpen;
+    var super_open = LockableDoor.open;
+    var super_close = LockableDoor.close;
+
+    //Override functions
+    LockableDoor.isOpen = function()
+    {
+        //Call parent
+        return super_isOpen() + 'from LockableDoor';
+    }
+    LockableDoor.open = function()
+    {
+        if (_locked === 0)
+        {
+            super_open();
+        }
+    }
+    LockableDoor.close = function()
+    {
+        if (_locked === 0)
+        {
+            super_close();
+        }
+    }
+
+    //Private fields
+    var _locked = 0;
+
+    //Adding public functions
+    LockableDoor.lock = function ()
+    {
+        _locked = 1;
+    }
+    LockableDoor.unlock = function ()
+    {
+        _locked = 0;
+    }
+    LockableDoor.isLocked = function ()
+    {
+        if (_locked ===1)
+        {
+            return 'I\'m locked';
+        }
+        return 'I\'m not locked';
+    }
+
+    return LockableDoor;
+
+}
+
+</script>
+
+</head>
+
+<body>    
+    <table cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr class='inside'>
+            <td colspan= "3"><p>Inside</p></td>
+        </tr>
+        <tr class='inside'>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class='outside'>
+            <td>
+                <table cellpadding="0" cellspacing="0" style="width:100%; border-right: solid black;">
+                    <tr class="borderin">
+                        <td>                           
+                        </td>
+                        <td> 
+                        normal door                          
+                        </td>
+                        <td>                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button>Open/close door</button>
+                        </td>
+                        <td>                           
+                        </td>
+                        <td>
+                            <button>Lock/unlock door</button>
+                        </td>                   
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table cellpadding="0" cellspacing="0" style="width:100%; border-right: solid black;">
+                    <tr class="borderin">
+                        <td>                           
+                        </td>
+                        <td>  
+                        lockable door                                                  
+                        </td>
+                        <td>                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button>Open/close door</button>
+                        </td>
+                        <td>                           
+                        </td>
+                        <td>
+                            <button>Lock/unlock door</button>
+                        </td>                   
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table cellpadding="0" cellspacing="0" style="width:100%; border-right: solid black;">
+                    <tr class="borderin">
+                        <td>                           
+                        </td>
+                        <td> 
+                        magnetic lockable door                                                 
+                        </td>
+                        <td>                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button>Open/close door</button>
+                        </td>
+                        <td>                           
+                        </td>
+                        <td>
+                            <button>Lock/unlock door</button>
+                        </td>                   
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr class='outside'>
+            <td colspan="3"><p>Outside</p></td>            
+        </tr>
+    </table>
+</body>
+
+
+<style type="text/css">
+    table tr td {
+        height:10em;
+    }
+
+    .inside {
+        background-color: grey;
+    } 
+
+    .borderin td   {
+        border-top: solid black;
+    }
+
+    .outside {
+        background-color: olive;
+    }
+    .inside,.outside td {
+        text-align:center;
+    }
+
+    .outside p {
+        font-size:3em;
+    }
+
+    .inside p {
+        font-size:3em;
+    }
+</style>
