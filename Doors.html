@@ -18,7 +18,7 @@ function DoorClass(my)
     my.color= 'wooden color';
 
     //Private fields
-    var _isOpen = 1;
+    var _isOpen = 0;
     
     //Private functions
     function privateFunction() {}
@@ -115,23 +115,95 @@ function LockableDoorClass()
 
 }
 
+function openlockclick()
+{
+    if (LockDoor.isOpen() === "I\'m Open!!from LockableDoor")
+    {
+        LockDoor.close();        
+    }
+    else
+    {
+        LockDoor.open();
+    }    
+    //alert(LockDoor.isOpen());
+    refreshLockableDoorOpenState();
+}
+
+function lockclick()
+{
+    if (LockDoor.isLocked() === "I\'m not locked")
+    {
+        LockDoor.lock();        
+    }
+    else
+    {
+        LockDoor.unlock();
+    }    
+    alert(LockDoor.isLocked());
+}
+
+function normalclick()
+{
+    if (baseDoor.isOpen() === "I\'m Open!!")
+    {
+        baseDoor.close();        
+    }
+    else
+    {
+        baseDoor.open();
+    }    
+    //alert(baseDoor.isOpen());
+
+    refreshBaseDoorOpenState();
+}
+
+function refreshBaseDoorOpenState()
+{
+   var box = document.getElementById('normalDoorBox');
+   if (baseDoor.isOpen() === "I\'m Open!!")
+   {
+        box.style.borderTop = "none";
+        box.style.borderLeft = "solid"; 
+   }
+   else
+   {
+        box.style.borderTop = "solid";
+        box.style.borderLeft = "none";
+   }
+}
+
+function refreshLockableDoorOpenState()
+{
+   var box = document.getElementById('lockableDoorBox');
+   if (LockDoor.isOpen() === "I\'m Open!!from LockableDoor")
+   {
+        box.style.borderTop = "none";
+        box.style.borderLeft = "solid"; 
+   }
+   else
+   {
+        box.style.borderTop = "solid";
+        box.style.borderLeft = "none";
+   }
+}
+
 console.log('Creation d\'une porte verrouillable');
-var test = LockableDoorClass();
-console.log('Couleur de la porte verrouillable');
-console.log(test.GetColor()); //Get protected
-console.log('Fermeture de la porte');
-test.close();
-console.log('Etat de la porte specifique : ' + test.isOpen());
-console.log('Fermeture du verrou');
-test.lock();
-console.log('Etat du verrou : ' + test.isLocked());
-console.log('Tentative d\'ouverture de la porte');
-test.open();
-console.log('Etat de la la porte : ' + test.isOpen());
+var LockDoor = LockableDoorClass();
+// console.log('Couleur de la porte verrouillable');
+// console.log(LockDoor.GetColor()); //Get protected
+// console.log('Fermeture de la porte');
+// LockDoor.close();
+// console.log('Etat de la porte specifique : ' + LockDoor.isOpen());
+// console.log('Fermeture du verrou');
+// LockDoor.lock();
+// console.log('Etat du verrou : ' + LockDoor.isLocked());
+// console.log('Tentative d\'ouverture de la porte');
+// LockDoor.open();
+// console.log('Etat de la la porte : ' + LockDoor.isOpen());
 
 console.log('Creation d\'une porte de base');
-var basetest = DoorClass();
-console.log('Couleur de la porte de base : ' + basetest.GetColor());
+var baseDoor = DoorClass();
+// console.log('Couleur de la porte de base : ' + basetest.GetColor());
 
 </script>
 
@@ -153,7 +225,7 @@ console.log('Couleur de la porte de base : ' + basetest.GetColor());
                     <tr class="borderin">
                         <td>                           
                         </td>
-                        <td> 
+                        <td id='normalDoorBox'> 
                         normal door                          
                         </td>
                         <td>                           
@@ -161,7 +233,7 @@ console.log('Couleur de la porte de base : ' + basetest.GetColor());
                     </tr>
                     <tr>
                         <td>
-                            <button>Open/close door</button>
+                            <button onclick='normalclick()'>Open/close door</button>
                         </td>
                         <td>                           
                         </td>
@@ -176,7 +248,7 @@ console.log('Couleur de la porte de base : ' + basetest.GetColor());
                     <tr class="borderin">
                         <td>                           
                         </td>
-                        <td>  
+                        <td id='lockableDoorBox'>  
                         lockable door                                                  
                         </td>
                         <td>                           
@@ -184,12 +256,12 @@ console.log('Couleur de la porte de base : ' + basetest.GetColor());
                     </tr>
                     <tr>
                         <td>
-                            <button>Open/close door</button>
+                            <button onclick='openlockclick()'>Open/close door</button>
                         </td>
                         <td>                           
                         </td>
                         <td>
-                            <button>Lock/unlock door</button>
+                            <button onclick='lockclick()'>Lock/unlock door</button>
                         </td>                   
                     </tr>
                 </table>
