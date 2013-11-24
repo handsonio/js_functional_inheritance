@@ -7,11 +7,16 @@
 <script language="javaScript">
     
 //Function to create a object Door. This is the way to simulate a class.
-function DoorClass(/*arguments*/)
+function DoorClass(my)
 {
     // return doorObject
     var door = {};
     
+    //Protected fields and functions
+    my = my || {};
+
+    my.color= 'wooden color';
+
     //Private fields
     var _isOpen = 1;
     
@@ -28,7 +33,7 @@ function DoorClass(/*arguments*/)
         {
             return 'I\'m Open!!';
         }
-        return 'No.. I\'m close!!';
+        return 'I\'m close!!';
     };
     door.open = function ()
     {
@@ -38,16 +43,26 @@ function DoorClass(/*arguments*/)
     {
         _isOpen = 0;
     }
+    door.GetColor = function() 
+    {
+        return my.color;
+    }
 
     // Return the created object
     return door;
 }
 
-
+//Function to create an lockable door. This is a door augmented object
 function LockableDoorClass()
 {
+    var my = {};
+
+
     //Initial object is an instance of a generic Door
-    var LockableDoor = DoorClass();
+    var LockableDoor = DoorClass(my);
+
+    //Redifining the protected fields for this specific object
+    my.color = 'red';
 
     //Save the reference to parent class function
     var super_isOpen = LockableDoor.isOpen;
@@ -100,6 +115,24 @@ function LockableDoorClass()
 
 }
 
+console.log('Creation d\'une porte verrouillable');
+var test = LockableDoorClass();
+console.log('Couleur de la porte verrouillable');
+console.log(test.GetColor()); //Get protected
+console.log('Fermeture de la porte');
+test.close();
+console.log('Etat de la porte specifique : ' + test.isOpen());
+console.log('Fermeture du verrou');
+test.lock();
+console.log('Etat du verrou : ' + test.isLocked());
+console.log('Tentative d\'ouverture de la porte');
+test.open();
+console.log('Etat de la la porte : ' + test.isOpen());
+
+console.log('Creation d\'une porte de base');
+var basetest = DoorClass();
+console.log('Couleur de la porte de base : ' + basetest.GetColor());
+
 </script>
 
 </head>
@@ -133,7 +166,7 @@ function LockableDoorClass()
                         <td>                           
                         </td>
                         <td>
-                            <button>Lock/unlock door</button>
+                            <button disabled="true">Lock/unlock door</button>
                         </td>                   
                     </tr>
                 </table>
